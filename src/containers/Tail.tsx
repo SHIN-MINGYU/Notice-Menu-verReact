@@ -2,7 +2,7 @@ import React from "react";
 
 function tail() {
     return (
-        <div className="tail"></div>
+        <div className="Tail"></div>
     )
 }
 export default tail;

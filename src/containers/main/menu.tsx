@@ -1,13 +1,19 @@
-import React from "react";
+import React from 'react';
+import GetMenuList from '../../components/GetMenuList';
+import noticeType from '../../defineType/notice';
+import './Menu.css'
 
-function menu() {
-
+type props = {
+    notice: noticeType[],
+    changeMod: (mod: string, noticeNum: number) => void
+}
+function menu(props: props) {
     return (
         <>
             <h3 style={{ marginLeft: "2vw", fontSize: "1.5vw", fontFamily: "SF_IceLemon" }}> 글</h3>
             <div className="choosemenu">
-                <button className="type1" onClick={() => { "location.href ='/'" }}>전체</button>
-                <button className="type2" onClick={() => { "location.href ='/'" }} >공감</button>
+                <button className="type1" >전체</button>
+                <button className="type2">공감</button>
             </div>
             <div style={{ marginLeft: "2vw", marginRight: "2vw", marginTop: "0.5vw", textAlign: "center" }}>
                 <div className="noticeHeader">
@@ -29,6 +35,8 @@ function menu() {
                             </tr>
                         </thead>
                         <tbody>
+                            <GetMenuList notice={props.notice} changeMod={props.changeMod}></GetMenuList>
+                            {/*メニュテーブルを作ってくれるhooks */}
                         </tbody>
                     </table>
                 </div>

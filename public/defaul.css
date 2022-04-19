@@ -1,0 +1,47 @@
+@font-face {
+    font-family: 'SF_IceLemon';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2106@1.1/SF_IceLemon.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.Desc {
+    width: 100%;
+    height: 80%;
+    overflow: hidden;
+    font-size: 0;
+}
+
+.leftside {
+    width: 12%;
+    height: 80vh;
+    background-color: powderblue;
+    float: left;
+    overflow: auto;
+}
+
+.Main {
+    width: 76%;
+    float: left;
+}
+
+.Main * {
+    font-size: 1vw;
+}
+
+.rightside {
+    width: 12%;
+    height: 80vh;
+    background-color: black;
+    float: left;
+    overflow: auto;
+}
+
+.login {
+    position: absolute;
+    right: 2vw;
+}
+
+.login a {
+    cursor: pointer;
+}
