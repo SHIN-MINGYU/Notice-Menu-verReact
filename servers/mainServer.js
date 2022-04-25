@@ -1,13 +1,15 @@
 const express = require('express');
 const app = express();
 const { sequelize } = require('./models');
-const Notice = require('./models/notice');
 const sympathyGroup = require('./models/sympathygroup');
 const Comment = require('./models/comment');
 const Login_Info = require('./models/login_info');
+const NoticeRouter = require('./routers/NoticeRouter');
 const cors = require('cors')
 
 app.use(cors())
+app.use('/notice', NoticeRouter);
+
 sequelize.sync({ force: false })
     .then(() => {
         console.log('데이터베이스 연결 성공');
@@ -16,24 +18,7 @@ sequelize.sync({ force: false })
         console.error(err);
     });
 const port = 3001;
-app.post('/notice/pages/:pagesNum', async (req, res) => {
-    const notice = await Notice.findAll({
-        order: [['notice_id', 'DESC']],
-        offset: (req.params.pagesNum - 1) * 15,
-        limit: 15
-    })
-    res.json(notice);
-})
-app.post('/notice/:noticeNum', async (req, res) => {
-    const selectedNotice = await Notice.findAll({
-        where: { notice_id: req.params.noticeNum }
-    })
-    res.json(selectedNotice);
-})
-app.post('/notice/length', async (req, res) => {
-    const notice = await Notice.findAll()
-    res.json(notice.length)
-})
+
 app.get('/sym', async (req, res) => {
     const sym = await sympathyGroup.findAll();
     res.json(sym);

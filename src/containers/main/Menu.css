@@ -32,3 +32,12 @@ td {
     border-bottom: 1px solid #444444;
     border-collapse: collapse;
 }
+
+.noticeList {
+    cursor: pointer
+}
+
+.pageList:hover {
+    cursor: pointer;
+    color: blue;
+}

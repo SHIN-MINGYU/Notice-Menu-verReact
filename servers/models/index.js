@@ -17,16 +17,15 @@ db.sympathyGroup = sympathyGroup;
 db.Comment = Comment;
 db.Login_Info = Login_Info;
 
-
 Notice.init(sequelize);
-Notice.associate(db);
 sympathyGroup.init(sequelize);
-sympathyGroup.associate(db);
 Comment.init(sequelize);
-Comment.associate(db);
 Login_Info.init(sequelize);
+Comment.removeAttribute('id');
+Login_Info.removeAttribute('id');
 Login_Info.associate(db);
-Comment.removeAttribute('id')
-Login_Info.removeAttribute('id')
+sympathyGroup.associate(db);
+Comment.associate(db);
+Notice.associate(db);
 
 module.exports = db;

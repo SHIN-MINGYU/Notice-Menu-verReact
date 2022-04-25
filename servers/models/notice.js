@@ -7,7 +7,7 @@ module.exports = class Notice extends Sequelize.Model {
                 type: Sequelize.INTEGER,
                 allowNull: false,
                 unique: true,
-                primaryKey: true
+                primaryKey: true,
             },
             title: {
                 type: Sequelize.STRING,
@@ -49,6 +49,6 @@ module.exports = class Notice extends Sequelize.Model {
         })
     }
     static associate(db) {
-
+        db.Notice.hasMany(db.Comment, { foreignKey: 'notice_id', sourceKey: 'notice_id' })
     }
 }

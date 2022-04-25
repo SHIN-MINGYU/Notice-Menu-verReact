@@ -5,11 +5,11 @@ type props = {
     notice: noticeType[],
     changeMod: (mod: string, noticeNum: number) => void
 }
-// 시발 함수 잘못짬.
 
 function getMenuList(props: props) {
-    const noticeMenu = props.notice.map((list: any, i: number = 1) => (
-        <tr key={i} onClick={() => props.changeMod("Detail", list.notice_id)}>
+    //noticeの情報をもらってテーブル形で返してくれる関数
+    const noticeMenu: JSX.Element[] = props.notice.map((list: any, i: number = 1) => (
+        <tr key={i} className="noticeList" onClick={() => props.changeMod("Detail", list.notice_id)}>
             <td>
                 {list.notice_id}
             </td>
@@ -27,8 +27,10 @@ function getMenuList(props: props) {
             </td>
         </tr>)
     )
-    return (<>
-        {noticeMenu}
-    </>)
+    return (
+        <tbody>
+            {noticeMenu}
+        </tbody>
+    )
 }
 export default getMenuList;

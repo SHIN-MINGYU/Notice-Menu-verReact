@@ -1,13 +1,40 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useState } from 'react';
 import GetMenuList from '../../components/GetMenuList';
+import GetPageList from '../../components/GetPageList'
 import noticeType from '../../defineType/notice';
 import './Menu.css'
 
 type props = {
     notice: noticeType[],
-    changeMod: (mod: string, noticeNum: number) => void
+    changeMod: (mod: string, noticeNum: number) => void,
+    changePage: (pageNum: number) => void,
+    pageNum: number,
 }
 function menu(props: props) {
+    //propsは上から15番目までしか見せてくれないので
+    //stateがあったらstateを使うこの時 page変更する度にajaxリクエスト
+    const [notice, setNotice] = useState<noticeType[]>();
+    const [prevPageNum, setPrevPageNum] = useState<number>(0);
+    //@params notice => 現在のページの情報が格納されている変数
+    //@prevPageNum => componentDidMount()を具現するための変数
+    const noticeHandler = (pageNum: number) => {
+        if (pageNum === 0) {
+            return <GetMenuList notice={props.notice} changeMod={props.changeMod}></GetMenuList>
+        } else {
+            if (notice == undefined) {
+                //最初にレンダーした時はstateのnoticeはないのでrequesst
+                axios.post('http://localhost:3001/notice/', { pageNum: pageNum }).then((res) => { setNotice(res.data) })
+            } else if (pageNum != prevPageNum) {
+                //前のページと違うページだったらそのページへまたrequest
+                setPrevPageNum(pageNum)
+                axios.post('http://localhost:3001/notice/', { pageNum: pageNum }).then((res) => { setNotice(res.data) })
+            } else {
+                //前のページnumberと今のページnumberが同じだったらその時menuをレンダー
+                return <GetMenuList notice={notice} changeMod={props.changeMod}></GetMenuList>
+            }
+        }
+    }
     return (
         <>
             <h3 style={{ marginLeft: "2vw", fontSize: "1.5vw", fontFamily: "SF_IceLemon" }}> 글</h3>
@@ -34,14 +61,13 @@ function menu(props: props) {
                                 <td>공감수</td>
                             </tr>
                         </thead>
-                        <tbody>
-                            <GetMenuList notice={props.notice} changeMod={props.changeMod}></GetMenuList>
-                            {/*メニュテーブルを作ってくれるhooks */}
-                        </tbody>
+                        {noticeHandler(props.pageNum)}
+                        {/*メニュテーブルを作ってくれるhooks */}
                     </table>
                 </div>
+                <GetPageList notice_Maxnum={props.notice[0].notice_id} changePage={props.changePage}></GetPageList>
                 <div style={{ display: "inline-block", fontFamily: "SF_IceLemon" }}></div>
-                <button style={{ float: "right" }}>생성</button>
+                <button style={{ float: "right" }} onClick={() => props.changeMod("Create", -1)}>생성</button>
                 <br />
                 <form action="/notice/search_process" method="post">
                     <select name="type">

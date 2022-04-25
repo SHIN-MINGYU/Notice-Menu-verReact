@@ -31,6 +31,7 @@ module.exports = class Commnet extends Sequelize.Model {
         )
     }
     static associate(db) {
+        db.Comment.belongsTo(db.Notice, { foreignKey: 'notice_id', targetKey: 'notice_id' })
     }
 
 }
